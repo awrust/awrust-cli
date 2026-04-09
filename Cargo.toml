@@ -1,0 +1,22 @@
+[package]
+name = "awrust-cli"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "awr"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive", "env"] }
+quick-xml = { version = "0.37", features = ["serialize"] }
+reqwest = { version = "0.12" }
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs"] }
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"
+wiremock = "0.6"
