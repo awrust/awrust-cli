@@ -143,11 +143,15 @@ GitHub Actions:
 
 ## 8. Dependencies
 
-| Crate | Purpose |
-|-------|---------|
-| `clap` | CLI argument parsing (derive + env) |
-| `reqwest` | HTTP client |
-| `quick-xml` | S3 XML serialization/deserialization |
-| `serde` | Serialization framework |
-| `thiserror` | Error type derive |
-| `tokio` | Async runtime |
+Every dependency is justified by an [Architecture Decision Record](adr/README.md).
+
+| Crate | Purpose | ADR |
+|-------|---------|-----|
+| `tokio` | Async runtime | [ADR-0001](adr/ADR-0001.md) |
+| `clap` | CLI argument parsing (derive + env) | [ADR-0002](adr/ADR-0002.md) |
+| `reqwest` | HTTP client | [ADR-0003](adr/ADR-0003.md) |
+| `quick-xml` | S3 XML serialization/deserialization | [ADR-0004](adr/ADR-0004.md) |
+| `serde` | Serialization framework | [ADR-0005](adr/ADR-0005.md) |
+| `thiserror` | Error type derive | [ADR-0006](adr/ADR-0006.md) |
+
+Test framework: [ADR-0007](adr/ADR-0007.md) (Behave BDD)

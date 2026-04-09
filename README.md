@@ -28,6 +28,7 @@ awr status
 |----------|-------------|
 | [Usage Guide](docs/USAGE.md) | Configuration, commands, examples |
 | [Architecture](docs/ARCHITECTURE.md) | Design decisions, project structure, data flow |
+| [ADRs](docs/adr) | Architecture Decision Records |
 
 ## Development
 
