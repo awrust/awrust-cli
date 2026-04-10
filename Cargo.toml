@@ -2,6 +2,10 @@
 name = "awrust-cli"
 version = "0.1.0"
 edition = "2024"
+repository = "https://github.com/awrust/awrust-cli"
+license = "MIT"
+description = "CLI client for awrust — an AWS-compatible cloud platform written in Rust"
+homepage = "https://github.com/awrust/awrust-cli"
 
 [[bin]]
 name = "awr"
@@ -14,3 +18,8 @@ reqwest = { version = "0.12" }
 serde = { version = "1", features = ["derive"] }
 thiserror = "2"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs"] }
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

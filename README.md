@@ -6,6 +6,36 @@ Minimal, ergonomic CLI for interacting with [awrust](https://github.com/awrust/a
 
 Status: **v0.1 — S3 support.**
 
+## Installation
+
+### Homebrew (macOS / Linux)
+
+```bash
+brew install awrust/tap/awrust-cli
+```
+
+### Shell (macOS / Linux)
+
+```bash
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/awrust/awrust-cli/releases/latest/download/awrust-cli-installer.sh | sh
+```
+
+### PowerShell (Windows)
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/awrust/awrust-cli/releases/latest/download/awrust-cli-installer.ps1 | iex"
+```
+
+### Cargo (from source)
+
+```bash
+cargo install --git https://github.com/awrust/awrust-cli
+```
+
+### GitHub Releases
+
+Pre-built binaries for macOS, Linux, and Windows are available on the [Releases](https://github.com/awrust/awrust-cli/releases) page.
+
 ## Quick start
 
 ```bash
