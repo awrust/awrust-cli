@@ -18,4 +18,3 @@ aarch64-unknown-linux-gnu = "ubuntu-22.04"
 [dist.homebrew-tap]
 owner = "awrust"
 name = "homebrew-tap"
-token-env = "HOMEBREW_TAP_TOKEN"
