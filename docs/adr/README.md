@@ -31,3 +31,4 @@ They exist to preserve context and prevent repeated debates.
 | 0005 | Use Serde as the serialization framework | Accepted |
 | 0006 | Use thiserror for error type derivation | Accepted |
 | 0007 | Use Behave for BDD integration testing | Accepted |
+| 0008 | Use cargo-dist for binary distribution | Accepted |
