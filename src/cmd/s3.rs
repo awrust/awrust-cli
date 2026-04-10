@@ -15,6 +15,8 @@ pub enum S3Command {
     },
     Rb {
         bucket: String,
+        #[arg(long)]
+        force: bool,
     },
     Ls {
         path: Option<String>,
@@ -25,16 +27,22 @@ pub enum S3Command {
     },
     Rm {
         path: String,
+        #[arg(long)]
+        recursive: bool,
     },
 }
 
 pub async fn execute(client: &Client, cmd: S3Command) -> Result<()> {
     match cmd {
         S3Command::Mb { bucket, region } => make_bucket(client, &bucket, &region).await,
-        S3Command::Rb { bucket } => remove_bucket(client, &bucket).await,
+        S3Command::Rb { bucket, force } if force => force_remove_bucket(client, &bucket).await,
+        S3Command::Rb { bucket, .. } => remove_bucket(client, &bucket).await,
         S3Command::Ls { path } => list(client, path.as_deref()).await,
         S3Command::Cp { source, dest } => copy(client, &source, &dest).await,
-        S3Command::Rm { path } => remove_object(client, &path).await,
+        S3Command::Rm { path, recursive } if recursive => {
+            remove_objects_recursive(client, &path).await
+        }
+        S3Command::Rm { path, .. } => remove_object(client, &path).await,
     }
 }
 
@@ -123,11 +131,34 @@ async fn download(client: &Client, remote: &str, local: &str) -> Result<()> {
     Ok(())
 }
 
+async fn fetch_object_keys(client: &Client, bucket: &str) -> Result<Vec<String>> {
+    let resp = client.get(&format!("/{bucket}?list-type=2")).await?;
+    let body = resp.text().await?;
+    let result: ListBucketResult = from_str(&body).map_err(|e| Error::Xml(e.to_string()))?;
+    Ok(result.contents.into_iter().map(|o| o.key).collect())
+}
+
 async fn remove_object(client: &Client, path: &str) -> Result<()> {
     let (bucket, key) = split_path(path);
     client.delete(&format!("/{bucket}/{key}")).await?;
     println!("Deleted: {bucket}/{key}");
     Ok(())
+}
+
+async fn remove_objects_recursive(client: &Client, path: &str) -> Result<()> {
+    let (bucket, _) = split_path(path);
+    for key in fetch_object_keys(client, bucket).await? {
+        client.delete(&format!("/{bucket}/{key}")).await?;
+        println!("Deleted: {bucket}/{key}");
+    }
+    Ok(())
+}
+
+async fn force_remove_bucket(client: &Client, bucket: &str) -> Result<()> {
+    for key in fetch_object_keys(client, bucket).await? {
+        client.delete(&format!("/{bucket}/{key}")).await?;
+    }
+    remove_bucket(client, bucket).await
 }
 
 #[derive(Serialize)]

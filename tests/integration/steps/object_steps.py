@@ -48,6 +48,11 @@ def step_delete(context, path):
     context.awr("s3", "rm", path)
 
 
+@when('I recursively delete "{path}"')
+def step_recursive_delete(context, path):
+    context.awr("s3", "rm", path, "--recursive")
+
+
 @then('local file "{name}" contains "{expected}"')
 def step_file_contains(context, name, expected):
     with open(_path(context, name)) as f:

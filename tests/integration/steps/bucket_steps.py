@@ -21,6 +21,11 @@ def step_remove_bucket(context, name):
     context.awr("s3", "rb", name)
 
 
+@when('I force remove bucket "{name}"')
+def step_force_remove_bucket(context, name):
+    context.awr("s3", "rb", name, "--force")
+
+
 @when("I list buckets")
 def step_list_buckets(context):
     context.awr("s3", "ls")
