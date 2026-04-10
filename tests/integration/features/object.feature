@@ -60,3 +60,25 @@ Feature: S3 object operations
     Then the command succeeds
     When I list "obj-ops"
     Then the output does not contain "life.txt"
+
+  Scenario: Recursive delete removes all objects in bucket
+    Given a local file "r1.txt" with content "one"
+    And a local file "r2.txt" with content "two"
+    And a local file "r3.txt" with content "three"
+    And "r1.txt" is uploaded to "obj-ops/dir/r1.txt"
+    And "r2.txt" is uploaded to "obj-ops/dir/r2.txt"
+    And "r3.txt" is uploaded to "obj-ops/r3.txt"
+    When I recursively delete "obj-ops"
+    Then the command succeeds
+    And the output contains "Deleted: obj-ops/dir/r1.txt"
+    And the output contains "Deleted: obj-ops/dir/r2.txt"
+    And the output contains "Deleted: obj-ops/r3.txt"
+    When I list "obj-ops"
+    Then the command succeeds
+    And the output does not contain "r1.txt"
+    And the output does not contain "r2.txt"
+    And the output does not contain "r3.txt"
+
+  Scenario: Recursive delete on empty bucket succeeds
+    When I recursively delete "obj-ops"
+    Then the command succeeds
